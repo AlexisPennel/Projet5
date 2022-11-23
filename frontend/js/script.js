@@ -1,42 +1,29 @@
-let items = document.querySelector("#items");
 
-// fonction ajout d'un produit 
-let productCard = (element) => {
-    const a = document.createElement("a");
-    items.appendChild(a)
+const getCanap = async (url) => {
 
-
-    const article = document.createElement("article");
-    a.appendChild(article);
-    a.href = `product.html?id=${element._id}`
-    
-    const img = document.createElement("img");
-    article.appendChild(img);
-    img.src = element.imageUrl;
-    img.alt = element.altTxt;
+  const response = await fetch(url);
+  return await response.json();
+};
 
 
-    const h3 = document.createElement("h3");
-    article.appendChild(h3);
-    h3.classList.add("productName");
-    h3.innerHTML = element.name;
+const main = async () => {
 
-    const p = document.createElement("p");
-    article.appendChild(p);
-    p.innerHTML = element.description;
-    p.classList.add("productDescription");
-}
+  const items = document.querySelector("#items");
+  const canapData = await getCanap("http://localhost:3000/api/products");
+  let cards = "";
+  console.log(canapData);
 
-//récupération des données produits et ajout au DOM 
-const data = fetch("http://localhost:3000/api/products")
-    .then(res => res.json())
-    .catch(error => alert("erreur" + error))
-    .then(data => {
-        data.forEach(element => {
-         productCard(element);
-        })
-    });
+  canapData.forEach(element => {
+    // productCard(element);
+    cards += `<a href="./product.html?${element._id}">
+        <article>
+          <img src="${element.imageUrl}" alt="${element.altTxt}">
+          <h3 class="productName">${element.name}</h3>
+          <p class="productDescription">${element.description}</p>
+        </article>
+      </a>`
+  })
+  items.innerHTML = cards;
+};
 
-
-    
-
+main();
