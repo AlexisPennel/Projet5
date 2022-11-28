@@ -1,15 +1,8 @@
-const getCanap = async (url) => {
-  const response = await fetch(url);
-  if (response.ok) {
-    return await response.json();
-  } else {
-    return canapData = -1;
-  }
-};
+import{getCanap} from './requests.js';
 
 const main = async () => {
   const items = document.querySelector("#items");
-  let canapData = await getCanap("http://localhost:3000/api/products");
+  let canapData = await getCanap("http://localhost:3000/api/prsoducts");
   let cards = "";
   console.log(canapData);
 
@@ -30,3 +23,4 @@ const main = async () => {
 };
 
 main();
+
