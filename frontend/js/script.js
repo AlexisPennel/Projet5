@@ -2,7 +2,7 @@ import{getCanap} from './requests.js';
 
 const main = async () => {
   const items = document.querySelector("#items");
-  let canapData = await getCanap("http://localhost:3000/api/prsoducts");
+  let canapData = await getCanap("http://localhost:3000/api/products");
   let cards = "";
   console.log(canapData);
 
