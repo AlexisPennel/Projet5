@@ -1,4 +1,5 @@
 import { getCanap } from './lib/requests.js';
+import { modifyQuantity } from './lib/cartManagement.js';
 
 const main = async () => {
     //récupération de l'id et des données du produit 
@@ -48,6 +49,7 @@ const main = async () => {
     const cartArray = [];
     const quantityInput = document.getElementById('quantity');
     const colorSelect = document.getElementById('colors');
+    let productNumber = 0;
 
     let addToCart = () => {
         const product = {
@@ -56,38 +58,30 @@ const main = async () => {
             quantity: quantityInput.value,
             color: colorSelect.value
         };
+        
 
-        if (cartArray.length === 0 ) {
+        const quantityCheck = modifyQuantity(cartArray, product);
+
+        if (cartArray.length === 0) {
+            productNumber++
             cartArray.push(product);
+            localStorage.setItem(`${productNumber}`, JSON.stringify(product));
             console.log(cartArray);
             return
-        }
+        };
 
-        if (product.id === cartArray[length].id && product.color === cartArray[length].color) {
-            console.log(`same id and color`);
-            console.log(cartArray);
+        if (quantityCheck === -1) {
+            productNumber++
+            cartArray.push(product);
+            localStorage.setItem(`${productNumber}`, JSON.stringify(product));
             return
         }
 
         cartArray.push(product);
         console.log(cartArray);
-
-        // for (let i in cartArray) {
-        //     if (!cartArray[i]) {
-        //         console.log(`push`);
-        //     }
-        // };
-
-        // if (cartArray.length === 0 || product.id === cartArray[length].id && product.color != cartArray[length].color) {
-        //     cartArray.push(product);
-        //     console.log(cartArray);
-        // } else if (product.id === cartArray[length].id && product.color === cartArray[length].color) {
-        //     console.log('meme id et meme couleur');
-        //     modifyQuantity();
-        // }
+        localStorage.setItem('', JSON.stringify(product));
+        
     };
-
-
 
     document.getElementById('addToCart').addEventListener('click', (addToCart))
 

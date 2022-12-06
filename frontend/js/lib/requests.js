@@ -1,4 +1,3 @@
-
 const getCanap = async (url) => {
   const response = await fetch(url);
   if (!response.ok) {
