@@ -1,5 +1,5 @@
 import { getCanap } from './lib/requests.js';
-import { modifyQuantity } from './lib/cartManagement.js';
+import { modifyQuantity, getCartArray } from './lib/cartManagement.js';
 
 const main = async () => {
     //récupération de l'id et des données du produit 
@@ -46,10 +46,8 @@ const main = async () => {
     productColors();
 
     //ajout panier 
-    const cartArray = [];
     const quantityInput = document.getElementById('quantity');
     const colorSelect = document.getElementById('colors');
-    let productNumber = 0;
 
     let addToCart = () => {
         const product = {
@@ -58,29 +56,27 @@ const main = async () => {
             quantity: quantityInput.value,
             color: colorSelect.value
         };
-        
+
+        let cartArray = getCartArray();
 
         const quantityCheck = modifyQuantity(cartArray, product);
 
         if (cartArray.length === 0) {
-            productNumber++
             cartArray.push(product);
-            localStorage.setItem(`${productNumber}`, JSON.stringify(product));
+            localStorage.setItem('cartArray', JSON.stringify(cartArray));
             console.log(cartArray);
             return
         };
 
         if (quantityCheck === -1) {
-            productNumber++
-            cartArray.push(product);
-            localStorage.setItem(`${productNumber}`, JSON.stringify(product));
+            localStorage.setItem('cartArray', JSON.stringify(cartArray));
             return
         }
 
         cartArray.push(product);
         console.log(cartArray);
-        localStorage.setItem('', JSON.stringify(product));
-        
+        localStorage.setItem('cartArray', JSON.stringify(cartArray));
+
     };
 
     document.getElementById('addToCart').addEventListener('click', (addToCart))

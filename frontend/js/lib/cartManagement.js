@@ -1,5 +1,3 @@
-
-
 let modifyQuantity = (cartArray, product) => {
     for (let i in cartArray) {
         if (product.id === cartArray[i].id && product.color === cartArray[i].color) {
@@ -11,4 +9,13 @@ let modifyQuantity = (cartArray, product) => {
     };
 }
 
-export {modifyQuantity};
+let getCartArray = () => {
+    if (localStorage.length != 0) {
+        console.log('local storage full');
+        return JSON.parse(localStorage.getItem('cartArray'));
+    } 
+    console.log('return');
+    return '[]';
+}
+
+export {modifyQuantity, getCartArray};
