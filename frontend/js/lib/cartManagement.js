@@ -4,18 +4,19 @@ let modifyQuantity = (cartArray, product) => {
             cartArray[i].quantity = parseFloat(cartArray[i].quantity) + parseFloat(product.quantity);
             console.log('same id and same color, only quantity changed');
             console.log(cartArray);
-            return -1
+            return true
         };
     };
-}
+};
 
 let getCartArray = () => {
     if (localStorage.length != 0) {
         console.log('local storage full');
         return JSON.parse(localStorage.getItem('cartArray'));
-    } 
-    console.log('return');
-    return '[]';
-}
+    }
 
-export {modifyQuantity, getCartArray};
+    console.log('return');
+    return [];
+};
+
+export { modifyQuantity, getCartArray };

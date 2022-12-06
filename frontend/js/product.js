@@ -48,6 +48,7 @@ const main = async () => {
     //ajout panier 
     const quantityInput = document.getElementById('quantity');
     const colorSelect = document.getElementById('colors');
+    let cartArray = getCartArray();
 
     let addToCart = () => {
         const product = {
@@ -57,19 +58,21 @@ const main = async () => {
             color: colorSelect.value
         };
 
-        let cartArray = getCartArray();
 
-        const quantityCheck = modifyQuantity(cartArray, product);
-
+        let quantityCheck = modifyQuantity(cartArray, product);
+        
         if (cartArray.length === 0) {
             cartArray.push(product);
             localStorage.setItem('cartArray', JSON.stringify(cartArray));
+            window.location.href = `./cart.html`
             console.log(cartArray);
             return
         };
 
-        if (quantityCheck === -1) {
+
+        if (quantityCheck) {
             localStorage.setItem('cartArray', JSON.stringify(cartArray));
+            window.location.href = `./cart.html`
             return
         }
 
@@ -77,6 +80,7 @@ const main = async () => {
         console.log(cartArray);
         localStorage.setItem('cartArray', JSON.stringify(cartArray));
 
+        window.location.href = `./cart.html`
     };
 
     document.getElementById('addToCart').addEventListener('click', (addToCart))
