@@ -1,5 +1,5 @@
 import { getCanap } from './lib/requests.js';
-import { modifyQuantity, getCartArray } from './lib/cartManagement.js';
+import { modifyQuantity, getCartArray, quantityValue } from './lib/cartManagement.js';
 
 const main = async () => {
     //récupération de l'id et des données du produit 
@@ -58,9 +58,13 @@ const main = async () => {
             color: colorSelect.value
         };
 
+        if (quantityValue(product) === -1) {
+            alert('mininum 1 article et maximum 100 articles');
+            return
+        };
 
-        let quantityCheck = modifyQuantity(cartArray, product);
-        
+        let quantityModification = modifyQuantity(cartArray, product);
+
         if (cartArray.length === 0) {
             cartArray.push(product);
             localStorage.setItem('cartArray', JSON.stringify(cartArray));
@@ -70,11 +74,16 @@ const main = async () => {
         };
 
 
-        if (quantityCheck) {
+        if (quantityModification) {
             localStorage.setItem('cartArray', JSON.stringify(cartArray));
             window.location.href = `./cart.html`
             return
-        }
+        };
+
+        if (quantityModification === false) {
+            alert("mininum 1 article et maximum 100 articles")
+            return
+        };
 
         cartArray.push(product);
         console.log(cartArray);
