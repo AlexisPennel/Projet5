@@ -1,5 +1,5 @@
 import { getCanap } from './lib/requests.js';
-import { modifyQuantity, getCartArray, quantityValue } from './lib/cartManagement.js';
+import { addProduct, getCartArray, quantityCheck } from './lib/cartManagement.js';
 
 const main = async () => {
     //récupération de l'id et des données du produit 
@@ -19,7 +19,7 @@ const main = async () => {
     document.querySelector('title').innerHTML = productName;
 
     //Ajout image produit
-    const productImage = `<img src="${productData.imageUrl}" alt="Photographie d'un canapé"></img>`;
+    const productImage = `<img src="${productData.imageUrl}" alt="${productData.description}"></img>`;
     document.querySelector('.item__img').innerHTML = productImage;
 
     //Ajout nom du produit (main)
@@ -48,48 +48,47 @@ const main = async () => {
     //ajout panier 
     const quantityInput = document.getElementById('quantity');
     const colorSelect = document.getElementById('colors');
-    let cartArray = getCartArray();
+    const cartArray = getCartArray();
 
     let addToCart = () => {
-        const product = {
-            name: productName,
-            id: productId,
-            quantity: quantityInput.value,
-            color: colorSelect.value
-        };
 
-        if (quantityValue(product) === -1) {
-            alert('mininum 1 article et maximum 100 articles');
-            return
-        };
+    
 
-        let quantityModification = modifyQuantity(cartArray, product);
+        addProduct(productId, colorSelect.value, quantityInput.value);
+        
+        
+        
+        // const product = {
+        //     name: productName,
+        //     id: productId,
+        //     quantity: quantityInput.value,
+        //     color: colorSelect.value
+        // };
 
-        if (cartArray.length === 0) {
-            cartArray.push(product);
-            localStorage.setItem('cartArray', JSON.stringify(cartArray));
-            window.location.href = `./cart.html`
-            console.log(cartArray);
-            return
-        };
+        // const productFound = addProduct(cartArray, product);
+
+        // if (cartArray.length === 0) {
+        //     cartArray.push(product);
+        //     localStorage.setItem('cartArray', JSON.stringify(cartArray));
+        //     window.location.href = `./cart.html`
+        //     return
+        // };
 
 
-        if (quantityModification) {
-            localStorage.setItem('cartArray', JSON.stringify(cartArray));
-            window.location.href = `./cart.html`
-            return
-        };
+        // if (quantityModification) {
+        //     localStorage.setItem('cartArray', JSON.stringify(cartArray));
+        //     window.location.href = `./cart.html`
+        //     return
+        // };
 
-        if (quantityModification === false) {
-            alert("mininum 1 article et maximum 100 articles")
-            return
-        };
+        // if (quantityModification === false) {
+        //     alert("mininum 1 article et maximum 100 articles")
+        //     return
+        // };
 
-        cartArray.push(product);
-        console.log(cartArray);
-        localStorage.setItem('cartArray', JSON.stringify(cartArray));
-
-        window.location.href = `./cart.html`
+        // cartArray.push(product);
+        // localStorage.setItem('cartArray', JSON.stringify(cartArray));
+        // window.location.href = `./cart.html`
     };
 
     document.getElementById('addToCart').addEventListener('click', (addToCart))
