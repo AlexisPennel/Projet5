@@ -7,7 +7,6 @@ const main = async () => {
   let cartArray = getCartArray();
   let cartItems = document.getElementById('cart__items');
   let card = "";
-  let numberCheck = 0;
 
   console.log(cartArray);
 
