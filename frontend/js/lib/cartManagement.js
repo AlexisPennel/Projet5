@@ -18,7 +18,7 @@ const addProduct = (productId, colorSelect, quantityInput) => {
             console.log("quantité valide");
             // console.log(cartArray);
             localStorage.setItem('cartArray', JSON.stringify(cartArray));
-            
+
             console.log(localStorage);
             return
         }
@@ -52,4 +52,20 @@ const getCartArray = () => {
     return [];
 };
 
-export { addProduct, getCartArray, quantityCheck };
+const multiply = (number1, number2) => {
+    const result = number1 * number2
+    return result
+};
+
+const sum = () => {
+    let sum = 0;
+    const totalPrices = JSON.parse(localStorage.getItem('productData'));
+    for (let i in totalPrices) {
+        sum += totalPrices[i].totalPrice
+    }
+    return sum
+}
+
+
+
+export { addProduct, getCartArray, quantityCheck, sum, multiply };
