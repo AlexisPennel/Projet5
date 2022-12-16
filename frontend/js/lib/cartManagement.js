@@ -7,16 +7,16 @@ const quantityCheck = (quantity) => {
 
 const addProduct = (productId, colorSelect, quantityInput) => {
     const cartArray = getCartArray();
-    const ProductSameIdSameColor = cartArray.find(element => element.id === productId && element.color === colorSelect);
+    const productInCartArray = cartArray.find(element => element.id === productId && element.color === colorSelect);
 
-    if (ProductSameIdSameColor) {
-        if (quantityCheck(parseInt(ProductSameIdSameColor.quantity) + parseInt(quantityInput))) {
-            ProductSameIdSameColor.quantity = parseInt(ProductSameIdSameColor.quantity) + parseInt(quantityInput);
-            localStorage.setItem('cartArray', JSON.stringify(cartArray));
+    if (productInCartArray) {
+        if (quantityCheck(parseInt(productInCartArray.quantity) + parseInt(quantityInput))) {
+            productInCartArray.quantity = parseInt(productInCartArray.quantity) + parseInt(quantityInput);
+            localStorageUpdate('cartArray', cartArray)
             console.log(localStorage);
             return
         }
-       
+
         return -1
     }
 
@@ -49,17 +49,48 @@ const multiply = (number1, number2) => {
 
 const sum = () => {
     let sum = 0;
-    const totalPrices = JSON.parse(localStorage.getItem('productData'));
-    for (let i in totalPrices) {
-        sum += totalPrices[i].totalPrice
+    const productData = JSON.parse(localStorage.getItem('productData'));
+    for (let i in productData) {
+        sum += productData[i].totalPrice
     }
     return sum
 };
 
-const localStorageUpdate = ( key, array) => {
+const sumQuantity = () => {
+    let sum = 0;
+    const productData = JSON.parse(localStorage.getItem('productData'));
+    for (let i in productData) {
+        sum += parseInt(productData[i].quantity);
+    }
+   
+    if (sum === 0 ) {
+        alert('aucun produit dans votre panier');
+        window.location.href = `./index.html`;
+    }
+
+    return sum
+
+};
+
+const localStorageUpdate = (key, array) => {
     localStorage.setItem(`${key}`, JSON.stringify(array));
 };
 
+const cartLengthCheck = (array) => {
+    if(array.length === 0 ){
+        alert('aucun produit dans votre panier')
+        window.location.href = `./index.html`;
+      };
+};
+
+// const namesCheck = (element) => {
+//     if(isNaN(element)){
+//         alert('valide');
+//         return
+//     }
+//     alert('veuillez renseigner le champ');
+// };
 
 
-export { addProduct, getCartArray, quantityCheck, sum, multiply, localStorageUpdate };
+
+export { addProduct, getCartArray, quantityCheck, sum, multiply, localStorageUpdate,sumQuantity, cartLengthCheck };

@@ -32,11 +32,11 @@ const main = async () => {
     document.querySelector('#description').innerHTML = productData.description;
 
     //Ajout des options produit 
-    let colorsContainer = document.querySelector('#colors');
-    let productColorsDatas = productData.colors;
+    const colorsContainer = document.querySelector('#colors');
+    const productColorsDatas = productData.colors;
     let newColor = "";
 
-    let productColors = () => {
+    const productColors = () => {
         productColorsDatas.forEach(element => {
             newColor += `<option value="${element}">${element}</option>`;
         });
@@ -49,7 +49,7 @@ const main = async () => {
     const quantityInput = document.getElementById('quantity');
     const colorSelect = document.getElementById('colors');
 
-    let addToCart = () => {
+    const addToCart = () => {
 
         const productCheck = addProduct(productId, colorSelect.value, quantityInput.value);
         
