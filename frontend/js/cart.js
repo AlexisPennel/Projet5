@@ -1,5 +1,6 @@
 import { getCartArray, multiply, quantityCheck, sum, localStorageUpdate, sumQuantity, cartLengthCheck } from "./lib/cartManagement.js";
 import { getCanap } from "./lib/requests.js";
+import { namesCheck, removeError, addressCheck, emailCheck } from "./lib/form.js";
 
 const main = () => {
   const cartArray = getCartArray();
@@ -10,7 +11,7 @@ const main = () => {
   let card = "";
 
   cartLengthCheck(cartArray);
-  
+
   const createCard = async (element) => {
     const canapData = await getCanap(`http://localhost:3000/api/products/${element.id}`);
 
@@ -125,22 +126,37 @@ const main = () => {
     };
   });
 
-  // Formulaire 
-  // const form = document.querySelector('.cart__order__form')
-  // const firstNameInput = document.getElementById('firstName');
-  // const lastNameInput = document.getElementById('lastName');
-  // const adressInput = document.getElementById('adress');
-  // const cityInput = document.getElementById('city');
-  // const emailInput = document.getElementById('email');
-  // const orderBtn = document.getElementById('order');
+
+  const form = document.querySelector('.cart__order__form')
+  const firstName = document.getElementById('firstName');
+  const lastName = document.getElementById('lastName');
+  const address = document.getElementById('address');
+  const city = document.getElementById('city');
+  const email = document.getElementById('email');
+  const orderBtn = document.getElementById('order');
 
 
-  // form.addEventListener('submit', () => {
-  //   namesCheck(firstNameInput.value);
-  //   namesCheck(lastNameInput.value);
+  form.addEventListener('submit', (e) => {
+    removeError();
 
+    if (namesCheck(firstName.value, lastName.value) === false){
+      event.preventDefault()
+      return
+    };
 
-  // });
+    if (addressCheck(address.value, city.value) === false) {
+      event.preventDefault()
+      return
+    };
+
+    if(emailCheck(email.value) === false) {
+      event.preventDefault()
+      return
+    };
+    
+    alert('valide');
+
+  });
 
 };
 

@@ -30,7 +30,6 @@ const addProduct = (productId, colorSelect, quantityInput) => {
         localStorageUpdate('cartArray', cartArray);
         return
     }
-
     return -1
 };
 
@@ -62,8 +61,8 @@ const sumQuantity = () => {
     for (let i in productData) {
         sum += parseInt(productData[i].quantity);
     }
-   
-    if (sum === 0 ) {
+
+    if (sum === 0) {
         alert('aucun produit dans votre panier');
         window.location.href = `./index.html`;
     }
@@ -77,20 +76,12 @@ const localStorageUpdate = (key, array) => {
 };
 
 const cartLengthCheck = (array) => {
-    if(array.length === 0 ){
+    if (array.length === 0) {
         alert('aucun produit dans votre panier')
         window.location.href = `./index.html`;
-      };
+    };
 };
 
-// const namesCheck = (element) => {
-//     if(isNaN(element)){
-//         alert('valide');
-//         return
-//     }
-//     alert('veuillez renseigner le champ');
-// };
 
 
-
-export { addProduct, getCartArray, quantityCheck, sum, multiply, localStorageUpdate,sumQuantity, cartLengthCheck };
+export { addProduct, getCartArray, quantityCheck, sum, multiply, localStorageUpdate, sumQuantity, cartLengthCheck };
