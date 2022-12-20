@@ -58,6 +58,7 @@ const main = () => {
 
   };
 
+  // Boucle création des cartes 
   cartArray.forEach(element => {
     createCard(element);
   });
@@ -88,14 +89,15 @@ const main = () => {
   // Event modification quantité d'un produit 
   document.addEventListener('change', (e) => {
 
-    const article = e.target.closest('article');
-    const dataId = article.dataset.id;
-    const dataColor = article.dataset.color;
-    const newQuantity = e.target.value;
-    //recherche du produit dans localStorage 'productData' 
-    const productInProductData = productData.find(element => element.id == dataId && element.color == dataColor);
-
     if (e.target.className == "itemQuantity") {
+      // récuperation de l'article le plus proche et de ses datas 
+      const article = e.target.closest('article');
+      const dataId = article.dataset.id;
+      const dataColor = article.dataset.color;
+      const newQuantity = e.target.value;
+      //recherche du produit dans localStorage 'productData' 
+      const productInProductData = productData.find(element => element.id == dataId && element.color == dataColor);
+
       if (quantityCheck(e.target.value)) {
         // MAJ de la quantité dans le localStorage "cartArray"
         const indexInCartArray = cartArray.indexOf(cartArray.find(element => element.id == dataId && element.color === dataColor));
@@ -119,42 +121,45 @@ const main = () => {
         totalQuantityContainer.innerHTML = sumQuantity();
         return
       };
-
+      // Erreur de la quantité d'articles et retour à la quantité initiale 
       alert('mininum 1 article et maximum 100 articles');
       e.target.value = productInProductData.quantity;
 
     };
   });
 
-
+  // Variables formulaire 
   const form = document.querySelector('.cart__order__form')
   const firstName = document.getElementById('firstName');
   const lastName = document.getElementById('lastName');
   const address = document.getElementById('address');
   const city = document.getElementById('city');
   const email = document.getElementById('email');
-  const orderBtn = document.getElementById('order');
 
-  
+  // Event envoie du formulaire 
   form.addEventListener('submit',async (e) => {
-  
+    event.preventDefault()
     removeError();
 
+    // Verif prénom et nom 
     if (namesCheck(firstName.value, lastName.value) === false) {
       event.preventDefault()
       return
     };
 
+    // Verif adresse et ville 
     if (addressCheck(address.value, city.value) === false) {
       event.preventDefault()
       return
     };
 
+    // Verif email 
     if (emailCheck(email.value) === false) {
       event.preventDefault()
       return
     };
 
+    // Objet contact
     const contact = {
       firstName: firstName.value,
       lastName: lastName.value,
@@ -163,17 +168,25 @@ const main = () => {
       email: email.value
     };
 
+    // Tableau produit 
     const orderArray = [];
     for (let i in cartArray) {
       orderArray.push(cartArray[i].id)
     };
 
+    // POST des datas et réponse API 
     let response = await postData(contact, orderArray);
     console.log(response);
+    // Récupération du numéro de commande
     const orderId = response.orderId
     console.log(orderId);
-    
+
+    // Clear local storage
+    localStorage.clear();
+
+    // redirection page confirmation
     window.location.href = `./confirmation.html?id=${orderId}`;
+
   });
 };
 
