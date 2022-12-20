@@ -1,5 +1,5 @@
 import { getCartArray, multiply, quantityCheck, sum, localStorageUpdate, sumQuantity, cartLengthCheck } from "./lib/cartManagement.js";
-import { getCanap } from "./lib/requests.js";
+import { getCanap, postData } from "./lib/requests.js";
 import { namesCheck, removeError, addressCheck, emailCheck } from "./lib/form.js";
 
 const main = () => {
@@ -135,11 +135,12 @@ const main = () => {
   const email = document.getElementById('email');
   const orderBtn = document.getElementById('order');
 
-
-  form.addEventListener('submit', (e) => {
+  
+  form.addEventListener('submit',async (e) => {
+  
     removeError();
 
-    if (namesCheck(firstName.value, lastName.value) === false){
+    if (namesCheck(firstName.value, lastName.value) === false) {
       event.preventDefault()
       return
     };
@@ -149,15 +150,31 @@ const main = () => {
       return
     };
 
-    if(emailCheck(email.value) === false) {
+    if (emailCheck(email.value) === false) {
       event.preventDefault()
       return
     };
+
+    const contact = {
+      firstName: firstName.value,
+      lastName: lastName.value,
+      address: address.value,
+      city: city.value,
+      email: email.value
+    };
+
+    const orderArray = [];
+    for (let i in cartArray) {
+      orderArray.push(cartArray[i].id)
+    };
+
+    let response = await postData(contact, orderArray);
+    console.log(response);
+    const orderId = response.orderId
+    console.log(orderId);
     
-    alert('valide');
-
+    window.location.href = `./confirmation.html?id=${orderId}`;
   });
-
 };
 
 main();
