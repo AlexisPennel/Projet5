@@ -1,6 +1,6 @@
 import { getCartArray, multiply, quantityCheck, sum, localStorageUpdate, sumQuantity, cartLengthCheck } from "./lib/cartManagement.js";
 import { getCanap, postData } from "./lib/requests.js";
-import { namesCheck, removeError, addressCheck, emailCheck } from "./lib/form.js";
+import { firstNameCheck, lastNameCheck, removeError, addressCheck, cityCheck, emailCheck, isFormValid } from "./lib/form.js";
 
 const main = () => {
   const cartArray = getCartArray();
@@ -10,8 +10,10 @@ const main = () => {
   let productData = []
   let card = "";
 
+  // verif nombre de produits dans "cartArray"
   cartLengthCheck(cartArray);
 
+  // création des cartes produit 
   const createCard = async (element) => {
     const canapData = await getCanap(`http://localhost:3000/api/products/${element.id}`);
 
@@ -23,7 +25,7 @@ const main = () => {
       quantity: element.quantity
     };
 
-    console.log(productData);
+
     productData.push(product);
     product.totalPrice = multiply(product.price, element.quantity);
     localStorageUpdate('productData', productData);
@@ -50,6 +52,7 @@ const main = () => {
         </div>
       </article>`
 
+    // Affichage de la carte 
     itemsContainer.innerHTML = card;
     // Affichage du prix total des produits
     totalPriceContainer.innerHTML = sum();
@@ -137,55 +140,41 @@ const main = () => {
   const email = document.getElementById('email');
 
   // Event envoie du formulaire 
-  form.addEventListener('submit',async (e) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault()
     removeError();
+    
+    if (isFormValid(firstName.value, lastName.value, address.value, city.value, email.value)) {
 
-    // Verif prénom et nom 
-    if (namesCheck(firstName.value, lastName.value) === false) {
-      event.preventDefault()
-      return
-    };
+      // Objet contact
+      const contact = {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        address: address.value,
+        city: city.value,
+        email: email.value
+      };
 
-    // Verif adresse et ville 
-    if (addressCheck(address.value, city.value) === false) {
-      event.preventDefault()
-      return
-    };
+      // Tableau produit 
+      const orderArray = [];
+      for (let i in cartArray) {
+        orderArray.push(cartArray[i].id)
+      };
 
-    // Verif email 
-    if (emailCheck(email.value) === false) {
-      event.preventDefault()
-      return
-    };
+      // POST des datas et réponse API 
+      let response = await postData(contact, orderArray);
+      console.log(response);
+      // Récupération du numéro de commande
+      const orderId = response.orderId
+      console.log(orderId);
 
-    // Objet contact
-    const contact = {
-      firstName: firstName.value,
-      lastName: lastName.value,
-      address: address.value,
-      city: city.value,
-      email: email.value
-    };
+      // Clear local storage
+      localStorage.clear();
 
-    // Tableau produit 
-    const orderArray = [];
-    for (let i in cartArray) {
-      orderArray.push(cartArray[i].id)
-    };
+      // redirection page confirmation
+      window.location.href = `./confirmation.html?id=${orderId}`;
+    }
 
-    // POST des datas et réponse API 
-    let response = await postData(contact, orderArray);
-    console.log(response);
-    // Récupération du numéro de commande
-    const orderId = response.orderId
-    console.log(orderId);
-
-    // Clear local storage
-    localStorage.clear();
-
-    // redirection page confirmation
-    window.location.href = `./confirmation.html?id=${orderId}`;
 
   });
 };

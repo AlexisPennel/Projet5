@@ -51,7 +51,7 @@ const main = async () => {
 
     const addToCart = () => {
 
-        const productCheck = addProduct(productId, colorSelect.value, quantityInput.value);
+        const productCheck = addProduct(productId, colorSelect.value, quantityInput.value, productName);
         
         if (productCheck === -1 ) {
             alert('mininum 1 article et maximum 100 articles');

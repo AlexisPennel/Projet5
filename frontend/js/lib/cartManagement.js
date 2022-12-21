@@ -5,7 +5,7 @@ const quantityCheck = (quantity) => {
     return true
 };
 
-const addProduct = (productId, colorSelect, quantityInput) => {
+const addProduct = (productId, colorSelect, quantityInput, name) => {
     const cartArray = getCartArray();
     const productInCartArray = cartArray.find(element => element.id === productId && element.color === colorSelect);
 
@@ -22,6 +22,7 @@ const addProduct = (productId, colorSelect, quantityInput) => {
 
     if (quantityCheck(quantityInput)) {
         const product = {
+            name: name,
             id: productId,
             quantity: quantityInput,
             color: colorSelect
