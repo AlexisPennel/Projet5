@@ -153,5 +153,6 @@ const isFormValid = (firstName, lastName, address, city, email) => {
 
     return false 
   };
-  
+
+// Exportation des fonctions  
 export {removeError, firstNameCheck, lastNameCheck, addressCheck, cityCheck, emailCheck, isFormValid };
