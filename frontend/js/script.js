@@ -14,6 +14,7 @@ const main = async () => {
     alert("erreur");
     return
   }
+  
   // Si les données sont correctes => création des "cartes produit"
   canapData.forEach(element => {
     cards += `<a href="./product.html?id=${element._id}">

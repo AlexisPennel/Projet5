@@ -9,7 +9,7 @@ const main = async () => {
     const urlSearchParams = new URLSearchParams(urlId);
     const productId = urlSearchParams.get('id');
     const productData = await getCanap(`http://localhost:3000/api/products/${productId}`);
-    
+
     // Message d'erreur si productData retourne "-1" ou si l'id produit est absent 
     if (productData === -1 || !productId) {
         alert(`Le produit n'existe pas`);
@@ -17,7 +17,7 @@ const main = async () => {
         return
     }
 
-    //Ajout nom du produit dans la balise meta title
+    //Ajout du nom du produit dans la balise meta title
     const productName = productData.name
     document.querySelector('title').innerHTML = productName;
 
@@ -34,17 +34,17 @@ const main = async () => {
     //Ajout de la description du produit 
     document.querySelector('#description').innerHTML = productData.description;
 
-    //Ajout des options de couleur dans le menu deroulant
+    //Ajout des options de couleur dans le menu déroulant
     const colorsContainer = document.querySelector('#colors');
     const productColorsDatas = productData.colors;
     let newColor = "";
 
-    //Création de l'option pour chaque élément de la variable "productColorsDatas"
+    //Création de l'option (menu déroulant) pour chaque élément de la variable "productColorsDatas"
     productColorsDatas.forEach(element => {
         newColor += `<option value="${element}">${element}</option>`;
     });
 
-    colorsContainer.innerHTML = newColor;
+    colorsContainer.insertAdjacentHTML('beforeend', newColor);
 
 
     //Ajout au panier 
@@ -54,10 +54,18 @@ const main = async () => {
     // Fonction appelée lors du clic sur le bouton "Ajouter au panier"
     const addToCart = () => {
 
+        // Vérification de la couleur sélectionnée 
+
+
         // Appel de la fonction "addProduct" du fichier js "cartManagement"
         const productCheck = addProduct(productId, colorSelect.value, quantityInput.value, productName);
 
         if (productCheck === -1) {
+            alert('Veuillez sélectionner une couleur');
+            return
+        };
+
+        if(productCheck === -2) { 
             alert('mininum 1 article et maximum 100 articles');
             return
         };

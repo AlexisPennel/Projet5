@@ -20,6 +20,11 @@ const addProduct = (productId, colorSelect, quantityInput, name) => {
     const cartArray = getCartArray();
     const productInCartArray = cartArray.find(element => element.id === productId && element.color === colorSelect);
 
+    if (colorSelect === "") {
+        alert('Veuillez sélectionner une couleur');
+        return -1
+    };
+
     if (productInCartArray) {
         if (quantityCheck(parseInt(productInCartArray.quantity) + parseInt(quantityInput))) {
             productInCartArray.quantity = parseInt(productInCartArray.quantity) + parseInt(quantityInput);
@@ -27,8 +32,8 @@ const addProduct = (productId, colorSelect, quantityInput, name) => {
             return
         }
 
-        return -1
-    }
+        return -2
+    };
 
     if (quantityCheck(quantityInput)) {
         const product = {
@@ -40,8 +45,8 @@ const addProduct = (productId, colorSelect, quantityInput, name) => {
         cartArray.push(product);
         localStorageUpdate('cartArray', cartArray);
         return
-    }
-    return -1
+    };
+    return -2
 };
 
 // Multiplication des nombres passés en paramètre 

@@ -29,11 +29,11 @@ const main = () => {
       quantity: element.quantity
     };
 
-    // ise a jourout du "product" au array "ProductData" et ise a jourout du tableau dans le localStorage
+    // Ajout du "product" dans le array "productData"
     productData.push(product);
-    // Calcul de prix total par produits
+    // Calcul de prix total par produits (Prix unitaire x quantité sélectionnée)
     product.totalPrice = multiply(product.price, element.quantity);
-    // ise a jourout du array au localStorage
+    // Mise à jour du array "productData" dans le localStorage
     localStorageUpdate('productData', productData);
 
     // Création des cartes produit 
