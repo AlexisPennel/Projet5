@@ -77,7 +77,7 @@ const main = () => {
   // Événement pour la suppression d'un produit 
   document.addEventListener('click', (e) => {
     if (e.target.className == "deleteItem") {
-      // Récupération de l'article le plus proche et du "dataId" et de la "dataColor"
+      // Récupération de la balise <article> la plus proche et du "dataId" et de la "dataColor"
       const article = e.target.closest('article');
       const dataId = article.dataset.id;
       const dataColor = article.dataset.color;
@@ -86,7 +86,7 @@ const main = () => {
       const indexInCartArray = cartArray.indexOf(cartArray.find(element => element.id == dataId && element.color === dataColor));
       cartArray.splice(indexInCartArray, 1);
       localStorageUpdate('cartArray', cartArray);
-      // Suppression du produit dans localStorage 'productData'
+      // Suppression du produit dans le localStorage 'productData'
       const indexInProductDatas = productData.indexOf(productData.find(element => element.id == dataId && element.color == dataColor));
       productData.splice(indexInProductDatas, 1);
       // Mise à jour du prix total des produits 
@@ -119,7 +119,7 @@ const main = () => {
         const productUnitPrice = productData.find(element => element.id == dataId).price;
         // Modification du prix total du produit dans localStorage "productData"
         productInProductData.totalPrice = multiply(productUnitPrice, newQuantity);
-        // Modification de la quantité dans localStorage 'productData 
+        // Modification de la quantité dans localStorage "productData"
         productInProductData.quantity = newQuantity;
         // Mise à jour localStorage "productData"
         localStorageUpdate('productData', productData);
@@ -134,7 +134,7 @@ const main = () => {
       };
 
       // Message d'erreur si la quantité d'articles n'est pas comprise entre 1 et 100 et retour à la valeur initiale 
-      alert('mininum 1 article et maximum 100 articles');
+      alert('Mininum 1 article et maximum 100 articles');
       e.target.value = productInProductData.quantity;
 
     };
@@ -173,8 +173,8 @@ const main = () => {
       const orderArray = [];
       for (let i in cartArray) {
         orderArray.push(cartArray[i].id)
+        
       };
-
       // POST des datas et réponse API 
       let response = await postData(contact, orderArray);
 
@@ -187,14 +187,7 @@ const main = () => {
       // Redirection page confirmation
       window.location.href = `./confirmation.html?id=${orderId}`;
     }
-
-
   });
 };
 
 main();
-
-
-
-
-

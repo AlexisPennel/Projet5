@@ -54,19 +54,18 @@ const main = async () => {
     // Fonction appelée lors du clic sur le bouton "Ajouter au panier"
     const addToCart = () => {
 
-        // Vérification de la couleur sélectionnée 
-
-
         // Appel de la fonction "addProduct" du fichier js "cartManagement"
         const productCheck = addProduct(productId, colorSelect.value, quantityInput.value, productName);
 
+        // Message d'erreur en cas de couleur non sélectionnée
         if (productCheck === -1) {
             alert('Veuillez sélectionner une couleur');
             return
         };
 
-        if(productCheck === -2) { 
-            alert('mininum 1 article et maximum 100 articles');
+        // Message d'erreur en cas de quantité erroné
+        if (productCheck === -2) {
+            alert('Mininum 1 article et maximum 100 articles');
             return
         };
 

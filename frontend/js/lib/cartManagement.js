@@ -15,7 +15,7 @@ const quantityCheck = (quantity) => {
     return true
 };
 
-//  Vérification si un produit identique existe dans le panier (modèle et couleur identique) => si oui, vérification de la somme des deux quantités => si la somme est correcte, incrémentation de la quantité de l'élément du panier => si non return "-1". Si aucun produit identique => vérification de la quantité => si correct, création de l'objet "product" et ajout dans l'array et mise à jour du localStorage. => sinon return "-1". 
+//  Vérification si la couleur est bien selectionner => Si non, return "-1". Vérification qu'un produit identique existe dans le panier (modèle et couleur identique) => si oui, vérification de la somme des deux quantités => si la somme est correcte, incrémentation de la quantité de l'élément du panier => si non return "-2". Si aucun produit identique => vérification de la quantité => si correct, création de l'objet "product" et ajout dans l'array et mise à jour du localStorage. => sinon return "-2". 
 const addProduct = (productId, colorSelect, quantityInput, name) => {
     const cartArray = getCartArray();
     const productInCartArray = cartArray.find(element => element.id === productId && element.color === colorSelect);

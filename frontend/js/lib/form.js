@@ -11,7 +11,7 @@ const removeError = () => {
 const firstNameCheck = (firstName) => {
     // Vérification que le champ "first name" n'est pas vide 
     if (firstName.trim() === '') {
-        document.getElementById('firstNameErrorMsg').innerHTML = 'le champ est vide';
+        document.getElementById('firstNameErrorMsg').innerHTML = 'Le champ "Prénom" ne peut pas être vide';
         return false
     };
 
@@ -21,7 +21,7 @@ const firstNameCheck = (firstName) => {
     
     // Vérification de "first name" avec la regex 
     if (resultFirstName === false) {
-        document.getElementById('firstNameErrorMsg').innerHTML = 'Le prénom est incorrect';
+        document.getElementById('firstNameErrorMsg').innerHTML = 'Le champ "Prénom" est incorrect';
         return false
     };
 
@@ -33,7 +33,7 @@ const lastNameCheck = (lastName) => {
     
     // Vérification que le champ "last name" n'est pas vide 
     if (lastName.trim() === '') {
-        document.getElementById('lastNameErrorMsg').innerHTML = 'Le champ est vide';
+        document.getElementById('lastNameErrorMsg').innerHTML = 'Le champ "Nom" ne peut pas être vide';
         return false
     };
 
@@ -43,7 +43,7 @@ const lastNameCheck = (lastName) => {
    
     // Vérification de "last name" avec la regex 
     if (resultLastName === false) {
-        document.getElementById('lastNameErrorMsg').innerHTML = 'Le nom est incorrect';
+        document.getElementById('lastNameErrorMsg').innerHTML = 'Le champ "Nom" est incorrect';
         return false
     };
     return true
@@ -55,7 +55,7 @@ const addressCheck = (address) => {
 
     // Vérification que le champ "adresse" n'est pas vide 
     if (address.trim() === '') {
-        document.getElementById('addressErrorMsg').innerHTML = 'Le champ est vide';
+        document.getElementById('addressErrorMsg').innerHTML = 'Le champ "Adresse" ne peut pas être vide';
         return false
     };
 
@@ -65,7 +65,7 @@ const addressCheck = (address) => {
     
     // Vérification de "adresse" avec la regex 
     if (resultAddress === false) {
-        document.getElementById('addressErrorMsg').innerHTML = `L'adresse est incorrect`;
+        document.getElementById('addressErrorMsg').innerHTML = `Le champ "Adresse" est incorrect`;
         return false
     }
 
@@ -77,7 +77,7 @@ const cityCheck = (city) => {
 
     // Vérification que le champ "ville" n'est pas vide 
     if (city.trim() === '') {
-        document.getElementById('cityErrorMsg').innerHTML = 'Le champ est vide';
+        document.getElementById('cityErrorMsg').innerHTML = 'Le champ "Ville" ne peut pas être vide';
         return false
     };
 
@@ -87,7 +87,7 @@ const cityCheck = (city) => {
 
     // Vérification de "Ville" avec la regex 
     if (resultCity === false) {
-        document.getElementById('cityErrorMsg').innerHTML = 'La ville est incorrect ';
+        document.getElementById('cityErrorMsg').innerHTML = 'Le champ "Ville" est incorrect ';
         return false
     }
 
@@ -100,7 +100,7 @@ const emailCheck = (email) => {
 
     // Vérification que le champ "email" n'est pas vide 
     if (email.trim() === '') {
-        document.getElementById('emailErrorMsg').innerHTML = 'Le champ est vide';
+        document.getElementById('emailErrorMsg').innerHTML = 'Le champ "Email" ne peut pas être vide';
         return false
     };
 
@@ -110,7 +110,7 @@ const emailCheck = (email) => {
 
     // Vérification de "Email" avec la regex 
     if (resultEmail === false) {
-        document.getElementById('emailErrorMsg').innerHTML = `L'email est incorrect`;
+        document.getElementById('emailErrorMsg').innerHTML = `Le champ "email" est incorrect`;
         return false
     };
 
