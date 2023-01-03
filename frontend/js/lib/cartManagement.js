@@ -21,7 +21,6 @@ const addProduct = (productId, colorSelect, quantityInput, name) => {
     const productInCartArray = cartArray.find(element => element.id === productId && element.color === colorSelect);
 
     if (colorSelect === "") {
-        alert('Veuillez sélectionner une couleur');
         return -1
     };
 
