@@ -147,11 +147,7 @@ const isFormValid = (firstName, lastName, address, city, email) => {
       formValid = false;
     };
 
-    if (formValid) {
-      return true 
-    }
-
-    return false 
+   return formValid
   };
 
 // Exportation des fonctions  

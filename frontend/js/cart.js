@@ -61,9 +61,9 @@ const main = () => {
 
     // Affichage de la "carte produit" 
     itemsContainer.innerHTML = card;
-    // Affichage du prix total des produits
+    // Calcul et affichage du prix total des produits
     totalPriceContainer.innerHTML = sum();
-    // Affichage de la quantité totale de produits 
+    // Calcul et affichage de la quantité totale des produits 
     totalQuantityContainer.innerHTML = sumQuantity();
 
   };
@@ -89,8 +89,8 @@ const main = () => {
       // Suppression du produit dans le localStorage 'productData'
       const indexInProductDatas = productData.indexOf(productData.find(element => element.id == dataId && element.color == dataColor));
       productData.splice(indexInProductDatas, 1);
-      // Mise à jour du prix total des produits 
       localStorageUpdate('productData', productData);
+      // Mise à jour du prix total des produits 
       totalPriceContainer.innerHTML = sum();
       // Mise à jour de la quantité totale d'articles 
       totalQuantityContainer.innerHTML = sumQuantity();
@@ -123,7 +123,7 @@ const main = () => {
         productInProductData.quantity = newQuantity;
         // Mise à jour localStorage "productData"
         localStorageUpdate('productData', productData);
-        // Mise à jour de l'affichage du prix du produit dans la "carte produit" 
+        // Mise à jour de l'affichage de la quantité du produit dans la "carte produit" 
         const itemDescriptionContainer = article.querySelector('.cart__item__content__description');
         itemDescriptionContainer.lastElementChild.innerHTML = `${productInProductData.quantity} x  ${productInProductData.price}€`;
         // Mise à jour de l'affichage du prix total des produits 
