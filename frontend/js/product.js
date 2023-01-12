@@ -57,15 +57,9 @@ const main = async () => {
         // Appel de la fonction "addProduct" du fichier js "cartManagement"
         const productCheck = addProduct(productId, colorSelect.value, quantityInput.value, productName);
 
-        // Message d'erreur en cas de couleur non sélectionnée
-        if (productCheck === -1) {
-            alert('Veuillez sélectionner une couleur');
-            return
-        };
-
-        // Message d'erreur en cas de quantité erroné
-        if (productCheck === -2) {
-            alert('Mininum 1 article et maximum 100 articles');
+        // Affichage du message d'erreur renvoyé par la fonction productCheck
+        if (productCheck !== undefined) {
+            alert(productCheck)
             return
         };
 

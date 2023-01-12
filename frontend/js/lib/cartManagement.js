@@ -21,7 +21,7 @@ const addProduct = (productId, colorSelect, quantityInput, name) => {
     const productInCartArray = cartArray.find(element => element.id === productId && element.color === colorSelect);
 
     if (colorSelect === "") {
-        return -1
+        return 'Veuillez sélectionner une couleur'
     };
 
     if (productInCartArray) {
@@ -31,7 +31,7 @@ const addProduct = (productId, colorSelect, quantityInput, name) => {
             return
         }
 
-        return -2
+        return 'Mininum 1 article et maximum 100 articles'
     };
 
     if (quantityCheck(quantityInput)) {
@@ -45,7 +45,7 @@ const addProduct = (productId, colorSelect, quantityInput, name) => {
         localStorageUpdate('cartArray', cartArray);
         return
     };
-    return -2
+    return 'Mininum 1 article et maximum 100 articles'
 };
 
 // Multiplication des nombres passés en paramètre 
@@ -89,7 +89,7 @@ const localStorageUpdate = (key, array) => {
 // Vérification de la taille du array "panier"
 const cartLengthCheck = (array) => {
     if (array.length === 0) {
-        alert('aucun produit dans votre panier')
+        alert(`Aucun produit n'est présent dans votre panier`)
         window.location.href = `./index.html`;
     };
 };
