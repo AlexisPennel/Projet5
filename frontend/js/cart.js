@@ -126,9 +126,9 @@ const main = () => {
         // Mise à jour de l'affichage de la quantité du produit dans la "carte produit" 
         const itemDescriptionContainer = article.querySelector('.cart__item__content__description');
         itemDescriptionContainer.lastElementChild.innerHTML = `${productInProductData.quantity} x  ${productInProductData.price}€`;
-        // Mise à jour de l'affichage du prix total des produits 
+        // Mise à jour de l'affichage du prix total des produits présents dans le panier
         totalPriceContainer.innerHTML = sum();
-        // Mise à jour de l'affichage de la quantité totale des produits 
+        // Mise à jour de l'affichage de la quantité totale des produits présents dans le panier
         totalQuantityContainer.innerHTML = sumQuantity();
         return
       };
@@ -173,12 +173,24 @@ const main = () => {
       const orderArray = [];
       for (let i in cartArray) {
         orderArray.push(cartArray[i].id)
-        
       };
-      // POST des datas et réponse API 
-      let response = await postData(contact, orderArray);
+      
+      // Objet contenant les données a envoyé à l'API
+      let body = {
+        contact: contact,
+        products: orderArray
+      };
 
-      // Récupération du numéro de commande
+      // POST des datas et réponse API 
+      let response = await postData('http://localhost:3000/api/products/order', body);
+
+      // Message d'erreur si la requête a échoué 
+      if (response === -1) {
+        alert("Une erreur s'est produite, veuillez réessayer plus tard")
+        return
+      }
+
+      // Récupération du numéro de commande dans la réponse de l'API 
       const orderId = response.orderId
 
       // Clear local storage

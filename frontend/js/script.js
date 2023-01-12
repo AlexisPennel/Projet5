@@ -11,7 +11,7 @@ const main = async () => {
 
   // Message d'erreur si canapData retourne -1
   if (canapData === -1) {
-    alert("erreur");
+    alert("Une erreur s'est produite, veuillez réessayer plus tard");
     return
   }
   
