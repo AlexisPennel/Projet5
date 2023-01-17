@@ -55,21 +55,19 @@ const multiply = (number1, number2) => {
 };
 
 // Calcul du montant total du panier
-const sum = () => {
+const sum = (array) => {
     let sum = 0;
-    const productData = JSON.parse(localStorage.getItem('productData'));
-    for (let i in productData) {
-        sum += productData[i].totalPrice
+    for (let i in array) {
+        sum += parseInt(array[i].totalPrice);
     }
     return sum
 };
 
 //  Calcul de la quantité totale d'article dans le panier. => Si aucun article dans le panier, message d'erreur et redirection page d'accueil 
-const sumQuantity = () => {
+const sumQuantity = (array) => {
     let sum = 0;
-    const productData = JSON.parse(localStorage.getItem('productData'));
-    for (let i in productData) {
-        sum += parseInt(productData[i].quantity);
+    for (let i in array) {
+        sum += parseInt(array[i].quantity);
     }
 
     if (sum === 0) {

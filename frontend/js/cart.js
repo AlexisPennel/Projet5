@@ -10,8 +10,9 @@ const main = () => {
   const itemsContainer = document.getElementById('cart__items');
   const totalQuantityContainer = document.getElementById('totalQuantity');
   const totalPriceContainer = document.getElementById('totalPrice');
-  let productData = []
+  const productData = [];
   let card = "";
+
 
   // Vérification du nombre de produits dans "cartArray"
   cartLengthCheck(cartArray);
@@ -20,21 +21,15 @@ const main = () => {
   const createCard = async (element) => {
     const canapData = await getCanap(`http://localhost:3000/api/products/${element.id}`);
 
-    // Création d'un objet "product" pour le array "productData" avec les infos du produit 
     const product = {
       id: element.id,
       color: element.color,
       price: canapData.price,
+      quantity: element.quantity,
       totalPrice: 0,
-      quantity: element.quantity
     };
-
-    // Ajout du "product" dans le array "productData"
+    product.totalPrice = multiply(product.price, product.quantity)
     productData.push(product);
-    // Calcul de prix total par produits (Prix unitaire x quantité sélectionnée)
-    product.totalPrice = multiply(product.price, element.quantity);
-    // Mise à jour du array "productData" dans le localStorage
-    localStorageUpdate('productData', productData);
 
     // Création des cartes produit 
     card += `<article class="cart__item" data-id="${element.id}" data-color="${element.color}">
@@ -45,7 +40,7 @@ const main = () => {
         <div class="cart__item__content__description">
         <h2>${canapData.name}</h2>
             <p>${element.color}</p>
-            <p>${product.quantity} x  ${product.price}€</p>
+            <p>${canapData.price}€</p>
             </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
@@ -61,11 +56,8 @@ const main = () => {
 
     // Affichage de la "carte produit" 
     itemsContainer.innerHTML = card;
-    // Calcul et affichage du prix total des produits
-    totalPriceContainer.innerHTML = sum();
-    // Calcul et affichage de la quantité totale des produits 
-    totalQuantityContainer.innerHTML = sumQuantity();
-
+    totalQuantityContainer.innerHTML = sumQuantity(productData);
+    totalPriceContainer.innerHTML = sum(productData)
   };
 
   // Boucle pour la création des "cartes produit" pour chaque élément du array "cartArray"
@@ -86,14 +78,12 @@ const main = () => {
       const indexInCartArray = cartArray.indexOf(cartArray.find(element => element.id == dataId && element.color === dataColor));
       cartArray.splice(indexInCartArray, 1);
       localStorageUpdate('cartArray', cartArray);
-      // Suppression du produit dans le localStorage 'productData'
-      const indexInProductDatas = productData.indexOf(productData.find(element => element.id == dataId && element.color == dataColor));
-      productData.splice(indexInProductDatas, 1);
-      localStorageUpdate('productData', productData);
-      // Mise à jour du prix total des produits 
-      totalPriceContainer.innerHTML = sum();
-      // Mise à jour de la quantité totale d'articles 
-      totalQuantityContainer.innerHTML = sumQuantity();
+      // Suppression du tableau ProductData
+      const indexInProductData = productData.indexOf(productData.find(element => element.id === dataId && element.color === dataColor));
+      productData.splice(indexInProductData, 1);
+      // MAJ affichage prix total et quantité total 
+      totalQuantityContainer.innerHTML = sumQuantity(productData);
+      totalPriceContainer.innerHTML = sum(productData)
     };
   });
 
@@ -106,30 +96,20 @@ const main = () => {
       const dataId = article.dataset.id;
       const dataColor = article.dataset.color;
       const newQuantity = e.target.value;
-      // Recherche du produit dans localStorage 'productData' 
-      const productInProductData = productData.find(element => element.id == dataId && element.color == dataColor);
 
       if (quantityCheck(e.target.value)) {
         // Mise a jour de la quantité dans le localStorage "cartArray"
         const indexInCartArray = cartArray.indexOf(cartArray.find(element => element.id == dataId && element.color === dataColor));
         cartArray[indexInCartArray].quantity = newQuantity;
         localStorageUpdate('cartArray', cartArray);
-        // Mise a jour prix produit 
-        // Recherche du prix unitaire du produit dans 'productData'
-        const productUnitPrice = productData.find(element => element.id == dataId).price;
-        // Modification du prix total du produit dans localStorage "productData"
-        productInProductData.totalPrice = multiply(productUnitPrice, newQuantity);
-        // Modification de la quantité dans localStorage "productData"
-        productInProductData.quantity = newQuantity;
-        // Mise à jour localStorage "productData"
-        localStorageUpdate('productData', productData);
-        // Mise à jour de l'affichage de la quantité du produit dans la "carte produit" 
-        const itemDescriptionContainer = article.querySelector('.cart__item__content__description');
-        itemDescriptionContainer.lastElementChild.innerHTML = `${productInProductData.quantity} x  ${productInProductData.price}€`;
-        // Mise à jour de l'affichage du prix total des produits présents dans le panier
-        totalPriceContainer.innerHTML = sum();
-        // Mise à jour de l'affichage de la quantité totale des produits présents dans le panier
-        totalQuantityContainer.innerHTML = sumQuantity();
+        // Mise a jour de la quantité dans le tableau productData 
+        const indexInProductData = productData.indexOf(productData.find(element => element.id === dataId && element.color === dataColor));
+        productData[indexInProductData].quantity = newQuantity;
+        //  Mise a jour du prix total par produit dans le tableau productData
+        productData[indexInProductData].totalPrice = multiply(productData[indexInProductData].price, productData[indexInProductData].quantity )
+        // Affichage quantité total et prix total panier
+        totalQuantityContainer.innerHTML = sumQuantity(productData);
+        totalPriceContainer.innerHTML = sum(productData)
         return
       };
 
@@ -174,23 +154,17 @@ const main = () => {
       for (let i in cartArray) {
         orderArray.push(cartArray[i].id)
       };
-      
-      // Objet contenant les données a envoyé à l'API
-      let body = {
+
+      // Body de la requête API
+      const body = {
         contact: contact,
         products: orderArray
-      };
+      }
 
       // POST des datas et réponse API 
       let response = await postData('http://localhost:3000/api/products/order', body);
 
-      // Message d'erreur si la requête a échoué 
-      if (response === -1) {
-        alert("Une erreur s'est produite, veuillez réessayer plus tard")
-        return
-      }
-
-      // Récupération du numéro de commande dans la réponse de l'API 
+      // Récupération du numéro de commande
       const orderId = response.orderId
 
       // Clear local storage
