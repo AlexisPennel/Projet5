@@ -40,7 +40,7 @@ const main = () => {
         <div class="cart__item__content__description">
         <h2>${canapData.name}</h2>
             <p>${element.color}</p>
-            <p>${canapData.price}€</p>
+            <p>${product.quantity} x ${canapData.price}€</p>
             </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
@@ -96,17 +96,20 @@ const main = () => {
       const dataId = article.dataset.id;
       const dataColor = article.dataset.color;
       const newQuantity = e.target.value;
-
+      // recherche du produit dans le tableau productData
+      const indexInProductData = productData.indexOf(productData.find(element => element.id === dataId && element.color === dataColor));
       if (quantityCheck(e.target.value)) {
         // Mise a jour de la quantité dans le localStorage "cartArray"
         const indexInCartArray = cartArray.indexOf(cartArray.find(element => element.id == dataId && element.color === dataColor));
         cartArray[indexInCartArray].quantity = newQuantity;
         localStorageUpdate('cartArray', cartArray);
         // Mise a jour de la quantité dans le tableau productData 
-        const indexInProductData = productData.indexOf(productData.find(element => element.id === dataId && element.color === dataColor));
         productData[indexInProductData].quantity = newQuantity;
-        //  Mise a jour du prix total par produit dans le tableau productData
+        // Mise a jour du prix total par produit dans le tableau productData
         productData[indexInProductData].totalPrice = multiply(productData[indexInProductData].price, productData[indexInProductData].quantity )
+        // Affichage quantité carte produit
+        const itemDescriptionContainer = article.querySelector('.cart__item__content__description');
+        itemDescriptionContainer.lastElementChild.innerHTML = `${productData[indexInProductData].quantity} x ${productData[indexInProductData].price}€`;
         // Affichage quantité total et prix total panier
         totalQuantityContainer.innerHTML = sumQuantity(productData);
         totalPriceContainer.innerHTML = sum(productData)
@@ -115,7 +118,7 @@ const main = () => {
 
       // Message d'erreur si la quantité d'articles n'est pas comprise entre 1 et 100 et retour à la valeur initiale 
       alert('Mininum 1 article et maximum 100 articles');
-      e.target.value = productInProductData.quantity;
+      e.target.value = productData[indexInProductData].quantity;
 
     };
   });
