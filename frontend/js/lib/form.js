@@ -1,4 +1,4 @@
-
+// Retrait des messages d'erreur (champs de saisie)
 const removeError = () => {
     document.getElementById('firstNameErrorMsg').innerHTML = '';
     document.getElementById('lastNameErrorMsg').innerHTML = '';
@@ -7,83 +7,87 @@ const removeError = () => {
     document.getElementById('emailErrorMsg').innerHTML = '';
 };
 
-
+// Fonction de vérification pour le champ "Prenom" qui renvoie FALSE si le champ est vide, avec des espaces ou si la vérification avec la REGEX n'est pas valide  
 const firstNameCheck = (firstName) => {
-    // vérification que le champ first name n'est pas vide 
+    // Vérification que le champ "first name" n'est pas vide 
     if (firstName.trim() === '') {
-        document.getElementById('firstNameErrorMsg').innerHTML = 'le champ est vide';
+        document.getElementById('firstNameErrorMsg').innerHTML = 'Le champ "Prénom" ne peut pas être vide';
         return false
     };
 
-    // regex
+    // Déclaration regex
     const regexFirst = new RegExp(/^[a-zA-Z\u0080-\u024F\s]+(?:(\-|\'|\.){1}[a-zA-Z\u0080-\u024F\s]+)*$/, 'g');
     let resultFirstName = regexFirst.test(firstName);
     
-    // vérificationm first name regex 
+    // Vérification de "first name" avec la regex 
     if (resultFirstName === false) {
-        document.getElementById('firstNameErrorMsg').innerHTML = 'Le prénom est incorrect';
+        document.getElementById('firstNameErrorMsg').innerHTML = 'Le champ "Prénom" est incorrect';
         return false
     };
 
     return true
 };
 
+// Fonction de vérification pour le champ "nom" qui renvoie FALSE si le champ est vide, avec des espaces ou si la vérification avec la REGEX n'est pas valide  
 const lastNameCheck = (lastName) => {
     
-    // vérification que le champ last name n'est pas vide 
+    // Vérification que le champ "last name" n'est pas vide 
     if (lastName.trim() === '') {
-        document.getElementById('lastNameErrorMsg').innerHTML = 'Le champ est vide';
+        document.getElementById('lastNameErrorMsg').innerHTML = 'Le champ "Nom" ne peut pas être vide';
         return false
     };
 
-    // regex
+    // Déclaration regex
     const regexLast = new RegExp(/^[a-zA-Z\u0080-\u024F\s]+(?:(\-|\'|\.){1}[a-zA-Z\u0080-\u024F\s]+)*$/, 'g');
     let resultLastName = regexLast.test(lastName);
    
-    // vérificationm last name regex 
+    // Vérification de "last name" avec la regex 
     if (resultLastName === false) {
-        document.getElementById('lastNameErrorMsg').innerHTML = 'Le nom est incorrect';
+        document.getElementById('lastNameErrorMsg').innerHTML = 'Le champ "Nom" est incorrect';
         return false
     };
     return true
     
 };
 
-
+// Fonction de vérification pour le champ "adresse" qui renvoie FALSE si le champ est vide, avec des espaces ou si la vérification avec la REGEX n'est pas valide 
 const addressCheck = (address) => {
 
-    // vérification que le champ adresse n'est pas vide 
+    // Vérification que le champ "adresse" n'est pas vide 
     if (address.trim() === '') {
-        document.getElementById('addressErrorMsg').innerHTML = 'Le champ est vide';
+        document.getElementById('addressErrorMsg').innerHTML = 'Le champ "Adresse" ne peut pas être vide';
         return false
     };
 
-    // verif adresse (regex)
+    // Déclaration regex
     const regexAddress = new RegExp(/^[a-zA-Z\u0080-\u024F\d\s\"]+(?:(\-|\'|\.){1}[a-zA-Z\u0080-\u024F\d\s\"]+)*$/, 'g');
     let resultAddress = regexAddress.test(address)
-
+    
+    // Vérification de "adresse" avec la regex 
     if (resultAddress === false) {
-        document.getElementById('addressErrorMsg').innerHTML = `L'adresse est incorrect`;
+        document.getElementById('addressErrorMsg').innerHTML = `Le champ "Adresse" est incorrect`;
         return false
     }
 
     return true
 };
 
+// Fonction de vérification pour le champ "Ville" qui renvoie FALSE si le champ est vide, avec des espaces ou si la vérification avec la REGEX n'est pas valide 
 const cityCheck = (city) => {
 
-    // vérification que le champ ville n'est pas vide 
+    // Vérification que le champ "ville" n'est pas vide 
     if (city.trim() === '') {
-        document.getElementById('cityErrorMsg').innerHTML = 'Le champ est vide';
+        document.getElementById('cityErrorMsg').innerHTML = 'Le champ "Ville" ne peut pas être vide';
         return false
     };
 
-    // verif ville (regex)
+    // Déclaration regex
     const regexCity = new RegExp(/^[a-zA-Z\u0080-\u024F\d\s]+(?:(\-|\'|\.){1}[a-zA-Z\u0080-\u024F\d\s]+)*$/, 'g');
     let resultCity = regexCity.test(city);
 
+    // Vérification de "Ville" avec la regex 
     if (resultCity === false) {
-        document.getElementById('cityErrorMsg').innerHTML = 'La ville est incorrect ';
+        document.getElementById('cityErrorMsg').innerHTML = 'Le champ "Ville" est incorrect ';
         return false
     }
 
@@ -91,59 +95,60 @@ const cityCheck = (city) => {
 
 };
 
+// Fonction de vérification pour le champ "Email" qui renvoie FALSE si le champ est vide, avec des espaces ou si la vérification avec la REGEX n'est pas valide 
 const emailCheck = (email) => {
 
-    // vérification que le champ email n'est pas vide 
+    // Vérification que le champ "email" n'est pas vide 
     if (email.trim() === '') {
-        document.getElementById('emailErrorMsg').innerHTML = 'Le champ est vide';
+        document.getElementById('emailErrorMsg').innerHTML = 'Le champ "Email" ne peut pas être vide';
         return false
     };
 
-    // verif email (regex)
+    // Déclaration regex
     const regexEmail = new RegExp(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/, 'gm');
     const resultEmail = regexEmail.test(email);
 
+    // Vérification de "Email" avec la regex 
     if (resultEmail === false) {
-        document.getElementById('emailErrorMsg').innerHTML = `L'email est incorrect`;
+        document.getElementById('emailErrorMsg').innerHTML = `Le champ "email" est incorrect`;
         return false
     };
 
     return true
 };
 
+// Fonction qui appelle les fonctions de vérification des champs de saisie qui renvoie TRUE si toutes les vérifications sont valides 
 const isFormValid = (firstName, lastName, address, city, email) => {
 
     let formValid = true; 
-    // Verif prénom 
+
+    // Vérification "prénom" 
     if (firstNameCheck(firstName) === false) {
       formValid = false;
     };
 
-    // Verif nom
+    // Vérification "nom"
     if (lastNameCheck(lastName) === false) {
       formValid = false;
     };
 
-    // Verif adresse 
+    // Vérification "adresse" 
     if (addressCheck(address) === false) {
       formValid = false;
     };
 
-    // Verif ville
+    // Vérification "ville"
     if (cityCheck(city) === false) {
       formValid = false;
     };
 
-    // Verif email 
+    // Vérification "email" 
     if (emailCheck(email) === false) {
       formValid = false;
     };
 
-    if (formValid) {
-      return true 
-    }
-
-    return false 
+   return formValid
   };
-  
+
+// Exportation des fonctions  
 export {removeError, firstNameCheck, lastNameCheck, addressCheck, cityCheck, emailCheck, isFormValid };

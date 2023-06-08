@@ -4,5 +4,5 @@ const urlId = window.location.search;
 const urlSearchParams = new URLSearchParams(urlId);
 const productId = urlSearchParams.get('id');
 
-// Affichage de l'id dans la confirmation 
+// Affichage de l'id dans le message de confirmation 
 document.getElementById('orderId').innerHTML = productId
