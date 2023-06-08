@@ -8,7 +8,7 @@ const main = async () => {
     const urlId = window.location.search;
     const urlSearchParams = new URLSearchParams(urlId);
     const productId = urlSearchParams.get('id');
-    const productData = await getCanap(`http://localhost:3000/api/products/${productId}`);
+    const productData = await getCanap(`https://kanap-api-35fw.onrender.com/api/products/${productId}`);
 
     // Message d'erreur si productData retourne "-1" ou si l'id produit est absent 
     if (productData === -1 || !productId) {

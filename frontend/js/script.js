@@ -6,7 +6,7 @@ const main = async () => {
   const items = document.querySelector("#items");
 
   // Récupération des produits avec l'API
-  let canapData = await getCanap("http://localhost:3000/api/products");
+  let canapData = await getCanap("https://kanap-api-35fw.onrender.com/api/products");
   let cards = "";
 
   // Message d'erreur si canapData retourne -1
@@ -14,7 +14,7 @@ const main = async () => {
     alert("Une erreur s'est produite, veuillez réessayer plus tard");
     return
   }
-  
+
   // Si les données sont correctes => création des "cartes produit"
   canapData.forEach(element => {
     cards += `<a href="./product.html?id=${element._id}">
@@ -25,7 +25,7 @@ const main = async () => {
           </article>
         </a>`
   })
-   
+
   items.innerHTML = cards;
 
 };

@@ -19,7 +19,7 @@ const main = () => {
 
   // Fonction qui récupère les données pour chaque produit présent dans le array du panier (cartArray), pour la création des "cartes produit" du panier.  
   const createCard = async (element) => {
-    const canapData = await getCanap(`http://localhost:3000/api/products/${element.id}`);
+    const canapData = await getCanap(`https://kanap-api-35fw.onrender.com/api/products/${element.id}`);
 
     const product = {
       id: element.id,
@@ -106,7 +106,7 @@ const main = () => {
         // Mise a jour de la quantité dans le tableau productData 
         productData[indexInProductData].quantity = newQuantity;
         // Mise a jour du prix total par produit dans le tableau productData
-        productData[indexInProductData].totalPrice = multiply(productData[indexInProductData].price, productData[indexInProductData].quantity )
+        productData[indexInProductData].totalPrice = multiply(productData[indexInProductData].price, productData[indexInProductData].quantity)
         // Affichage quantité carte produit
         const itemDescriptionContainer = article.querySelector('.cart__item__content__description');
         itemDescriptionContainer.lastElementChild.innerHTML = `${productData[indexInProductData].quantity} x ${productData[indexInProductData].price}€`;
